@@ -1,0 +1,52 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Send Newsletter{% endblock %}
+
+{% load static %}
+
+{% block content %}
+    <section class="bg-warning-subtle text-dark p-3">
+        <div class="container">
+            <form id="newsletterForm" method="post" action="{% url 'newsletter subscribe' %}">
+
+                <div class="row row-cols-md-3 justify-content-between align-items-center text-center">
+                    <div class="col-12 col-lg-3">
+                        <div class="m-3">
+                            <h4>JOIN OUR NEWSLETTER</h4>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 mb-3 mb-md-0">
+                        <div class="subscribe-wrapper subscribe2-wrapper m-3">
+                            <div class="subscribe-form">
+                                {% csrf_token %}
+
+
+                                <div class="input-group">
+                                    <input class="form-control news-input" name="email"
+                                           placeholder="Enter your email address" type="email" required>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-3 text-center mb-3 mb-md-0">
+                        <!-- Hidden submit button inside a label -->
+                        <label for="newsletterForm">
+                            <button type="submit" class="btn btn-outline-dark">Subscribe <i
+                                    class="fas fa-long-arrow-alt-right"></i></button>
+                        </label>
+                        <!-- Optional success message display -->
+                        <div id="messageContainer"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/newsletter.css' %}">
+{% endblock %}
+
+

@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans&display=swap');
+
+.logo {
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 2px;
+}
+
+.text {
+    font-family: 'Roboto Mono', monospace;
+}
+
+html,
+body {
+    font-family: 'Roboto Mono', monospace;
+}
+
+.fw-500 {
+    font-weight: 500;
+}
+
+body::before {
+    display: block;
+    content: '';
+    height: 60px;
+}
+
+
+.price {
+    font-size: 20px;
+}
+
+#video_list {
+    overflow-y: scroll;
+}
+
+.active-video {
+    background-color: gray;
+    color: antiquewhite;
+}
+
+div::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+div::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+
+}
+
+/* Handle */
+div::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+div::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+.heading {
+  font-family: Montserrat, sans-serif;
+  font-size: 30px;
+}
+
+
+.enroll-button {
+  font-family: "Open Sans", sans-serif;
+  font-size: 28px;
+}
+
+.showcase-heading {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.showcase-text {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 400;
+    color: #666;
+    line-height: 1.6;
+}
+
+.info-heading{
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 1.5rem;
+}
+
+.info-text {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 400;
+    color: whitesmoke;
+    line-height: 1.6;
+}

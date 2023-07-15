@@ -1,0 +1,58 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Login Page{% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid px-4 px-md-5 py-4 py-md-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-4">
+                <div class="card mt-5 mb-3 shadow-lg p-4 p-md-5">
+                    <h4 class="text-center text-secondary logo">Login</h4>
+                    <br>
+
+                    <form action="" method="post" class="form-floating">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="form-floating mb-3">
+                                <input type="{{ field.field.widget.input_type }}"
+                                       class="form-control
+                                        {% if field.errors %}
+                                       is-invalid
+                                        {% endif %}"
+                                       id="{{ field.id_for_label }}"
+                                       name="{{ field.html_name }}"
+                                        {% if field.field.required %}
+                                       required
+                                        {% endif %}
+                                        {% if field.value %}
+                                       value="{{ field.value }}"
+                                        {% endif %}
+                                       placeholder="{{ field.label }}">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            </div>
+                        {% endfor %}
+                        <div class="form-text text-md-end">
+
+                            <a href="{% url 'password_reset' %}" class="text-decoration-none text-primary">Forgot
+                                Password?</a>
+
+                        </div>
+                        <div class="m-3">
+                            {% if form.non_field_errors %}
+                                <div class="text-danger">{{ form.non_field_errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <button type="submit" class="btn btn-outline-success">Login</button>
+                    </form>
+                    <br>
+                    <div class="form-text">Don't have an account?
+                        <a href="{% url 'sign up' %}" class="text-decoration-none text-primary">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}Course Page{% endblock %}
+
+{% block content %}
+
+    <section class="">
+        <div class="container p-5 ">
+            <div class="card p-3 bg-dark-subtle shadow">
+                <div class="row">
+                    <div class="col">
+                        <iframe id="player"
+                                width="100%"
+                                src="https://www.youtube.com/embed/{{ video.video_id }}"
+                                title="{{ video.title }}"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="col-3">
+
+                        <ul id="video_list" class="list-group">
+                            {% for v in sorted_videos %}
+                                <li class="list-group-item {% if v == video %}active-video{% endif %}">
+                                    <a class="{% if v == video %} active-video-link {% endif %}"
+                                       href="?lecture={{ v.serial_number }}">
+                                        <i class="fa-solid fa-video"></i> {{ v.title }}
+                                    </a>
+
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col mt-2">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ course.name }}</h5>
+                                <hr>
+                                {% if course.description %}
+                                    <h6>Description:</h6>
+                                    <p class="card-text">{{ course.description }}</p>
+                                {% endif %}
+                                <hr>
+                                <div><i class="fa-solid fa-folder"></i> Course Resources</div>
+                                <hr>
+
+                                {% for resource in resources %}
+                                    {% if resource.url_property %}
+                                        <p>
+                                            <a href="{{ resource.url_property }}">
+                                                <i class="fa-solid fa-up-right-from-square"></i> {{ resource.url_property.title }}
+                                            </a>
+
+                                        </p>
+                                    {% endif %}
+
+                                    {% if resource.file_property %}
+                                        <p>
+                                            <a href="{{ resource.file_property.url }}" download>
+                                                <i class="fa-solid fa-download"></i> {{ resource.file_property.title }}
+                                            </a>
+                                        </p>
+                                    {% endif %}
+
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block css %}
+    <style>
+        a:hover {
+            color: black;
+        }
+
+        a {
+            color: gray;
+            text-decoration: none;
+        }
+
+        .active-video-link {
+            color: whitesmoke;
+            text-emphasis: none;
+            font-weight: bold;
+        }
+
+        .active-video-link:hover {
+            color: white;
+            text-decoration: none;
+        }
+
+    </style>
+{% endblock %}
+
+
+{% block js %}
+    <script src="{% static 'js/youtube_script.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+h4 {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 2px;
+    font-size: xx-large;
+}
+
+
+@media (min-width: 768px) {
+    .news-input {
+        width: 50%;
+    }
+}

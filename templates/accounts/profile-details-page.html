@@ -1,0 +1,117 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Profile Page{% endblock %}
+
+{% block content %}
+
+    <section class="vh-100 ">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col col-lg-6 mb-4 mb-lg-0">
+                    <div class="card mb-3" style="border-radius: .9rem;">
+                        <div class="row g-0">
+                            <div class="col-md-4 gradient-custom text-center text-dark"
+                                 style="border-top-left-radius: .9rem; border-bottom-left-radius: .5rem;">
+                                {% if user.profile_picture %}
+                                    <img src="{{ user.profile_picture.url }}"
+                                         alt="Profile Image"
+                                         class="img-fluid my-5 rounded-circle"
+                                         style="width: 90px; height: 90px;">
+                                {% else %}
+                                    <img src="{% static 'images/blank-profile-pic.png' %}"
+                                         alt="Profile Image"
+                                         class="img-fluid my-5 rounded-circle"
+                                         style="width: 90px; height: 90px;">
+                                {% endif %}
+                                <h5>
+                                    {% if user.get_full_name %}
+                                        {{ user.get_full_name }}
+                                    {% else %}
+                                        {{ user.username }}
+                                    {% endif %}
+                                </h5>
+                                <div class="mb-3">
+                                    <h6>
+                                        {% if user.is_superuser or user.is_staff %}
+                                            Lector
+                                        {% else %}
+                                            Student
+                                        {% endif %}
+
+                                    </h6>
+                                </div>
+                                <div class="mb-3">
+                                    <h6><i class="fa-solid fa-envelope"></i> Email</h6>
+                                    <p class="text-muted">{{ user.email }}</p>
+                                </div>
+
+                                <div class="m-5">
+                                    <a href="{% url 'edit profile' pk=request.user.pk %}"
+                                       class="btn btn-outline-dark">
+                                        <i class="fa-solid fa-user-pen"></i> Edit
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8">
+                                <div class="card-body p-4">
+
+                                    <h6 class="m-2"><i class="fa-solid fa-circle-info"></i> Information</h6>
+
+                                    <hr class="mt-0 mb-4">
+
+                                    <div class="row pt-1">
+
+
+                                        <div class="col-6 mb-3">
+                                            <h6>Username</h6>
+                                            <p class="text-muted">{{ user.username }}</p>
+                                        </div>
+
+                                        <div class="col-6 mb-3">
+                                            <h6>Gender</h6>
+                                            <p class="text-muted">{{ user.gender }}</p>
+                                        </div>
+
+                                        <div class="col-6 mb-3">
+                                            <h6>First Name</h6>
+                                            <p class="text-muted">{{ user.first_name }}</p>
+                                        </div>
+
+                                        <div class="col-6 mb-3">
+                                            <h6>Last Name</h6>
+                                            <p class="text-muted">{{ user.last_name }}</p>
+                                        </div>
+
+
+                                    </div>
+                                    <h6><i class="fa-solid fa-gear"></i> Settings</h6>
+                                    <hr class="mt-0 mb-4">
+                                    <div class="row pt-1">
+                                        <div class="col-6 mb-1">
+                                            <i class="fa-solid fa-key fa-bounce"></i>
+                                            <a href="{% url 'change password' %}"
+                                               style="font-size: 20px;"
+                                               class="text-decoration-none text-dark">
+                                                Change Password
+                                            </a>
+                                        </div>
+                                        <div class="col-6 mb-1">
+                                            <h6>Most Viewed</h6>
+                                            <p class="text-muted">Dolor sit amet</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/details-edit-page.css' %}">
+{% endblock %}

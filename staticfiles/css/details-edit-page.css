@@ -1,0 +1,59 @@
+
+
+.gradient-custom {
+    /* fallback for old browsers */
+    background: #f6d365;
+
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
+
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))
+}
+
+h6 {
+    font-family: "Roboto", sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Font style for the profile information */
+.text-muted {
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    color: #777;
+}
+
+/* Font style for the change password link */
+a.text-warning {
+    font-family: "Roboto", sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: #ff8800;
+    text-decoration: none;
+}
+
+/* Font style for the profile image name */
+h5 {
+    font-family: "Roboto", sans-serif;
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Font style for the lector/student label */
+h6.mb-3 {
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: #555;
+}
+
+.img-account-profile {
+    height: 10rem;
+}
+
+.rounded-circle {
+    border-radius: 50% !important;
+}

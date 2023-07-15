@@ -1,0 +1,96 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Edit Page{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/details-edit-page.css' %}">
+    <div class="container-fluid p-5">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row mt-5">
+                <div class="col-xl-4 d-flex">
+                    <!-- Profile picture card-->
+                    <div class="card mb-4 mb-xl-0 flex-fill">
+                        <div class="card-header">Profile Picture</div>
+                        <div class="card-body text-center">
+                            <!-- Profile picture image-->
+                            <img class="img-account-profile rounded-circle mb-2"
+                                 src="{% if form.instance.profile_picture %}
+                                          {{ form.instance.profile_picture.url }}
+                                       {% else %}
+                                          {% static 'images/blank-profile-pic.png' %}
+                                       {% endif %}"
+                                 alt="{{ form.instance.name }}">
+                            <!-- Profile picture help block-->
+                            <div class="small font-italic text-muted mb-4">
+                                JPG or PNG no larger than 5 MB
+                            </div>
+                            <input class="btn btn-primary" type="file" name="profile_picture"
+                                   id="id_profile_picture" style="display: none;">
+                            <label for="id_profile_picture" class="btn btn-primary custom-file-upload">
+                                <i class="fa-solid fa-arrow-up-from-bracket"></i> Upload Picture
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-8 d-flex">
+                    <!-- Account details card-->
+                    <div class="card mb-4 flex-fill">
+                        <div class="card-header">Account Details</div>
+                        <div class="card-body">
+                            <div class="row pt-1">
+                                {% for field in form %}
+                                    {% if field.name == 'gender' %}
+                                        <div class="form-floating col-md-6 mb-3">
+                                            <select class="form-control {% if field.errors %}is-invalid{% endif %}"
+                                                    id="{{ field.id_for_label }}"
+                                                    name="{{ field.html_name }}"
+                                                    {% if field.field.required %}required{% endif %}>
+                                                {% for value, label in field.field.choices %}
+                                                    <option value="{{ value }}"
+                                                            {% if field.value == value %}selected{% endif %}>
+                                                        {{ label }}
+                                                    </option>
+                                                {% endfor %}
+                                            </select>
+                                            <label for="{{ field.id_for_label }}">Gender</label>
+                                            <small class="form-text text-muted">{{ field.field.help_text }}</small>
+                                            {% if field.errors %}
+                                                {% for error in field.errors %}
+                                                    <div class="invalid-feedback mt-3">
+                                                        {{ error }}
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    {% elif field.name != 'profile_picture' %}
+                                        <div class="form-floating col-md-6 mb-3">
+                                            <input type="{{ field.field.widget.input_type }}"
+                                                   class="form-control {% if field.errors %}is-invalid{% endif %}"
+                                                   id="{{ field.id_for_label }}"
+                                                   name="{{ field.html_name }}"
+                                                   {% if field.field.required %}required{% endif %}
+                                                   {% if field.value %}value="{{ field.value }}"{% endif %}
+                                                   placeholder="{{ field.label }}">
+                                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                            <small class="form-text text-muted">{{ field.field.help_text }}</small>
+                                            {% if field.errors %}
+                                                {% for error in field.errors %}
+                                                    <div class="invalid-feedback mt-3">
+                                                        {{ error }}
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                                <button class="btn btn-primary" type="submit">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

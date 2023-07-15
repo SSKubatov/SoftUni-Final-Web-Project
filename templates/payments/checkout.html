@@ -1,0 +1,56 @@
+{% extends 'base/base.html' %}
+{% load course_custom_tags %}
+
+{% block title %} Checkout Page {% endblock %}
+
+{% block content %}
+    <section class="vh-100" style="background: antiquewhite">
+        <div class="container p-5">
+            <div class="row p-5 justify-content-evenly">
+                <div class="col-md-4">
+                    <div class="card shadow">
+                        <img class="img-fluid"
+                             src="{{ course.thumbnail.url }}"
+                             alt="Course Thumbnail">
+                    </div>
+                </div>
+                <div class="col-md-6 m-md-3">
+
+                    <h4 class="card-title mt-5 mt-md-0">
+                        <i class="fa-brands fa-python"></i> {{ course.name }}
+                    </h4>
+                    <hr>
+                    <p>What you will learn ?</p>
+                    <ul>
+                        {% for lesson in lessons %}
+                            <li>{{ lesson.content }}</li>
+                        {% endfor %}
+                    </ul>
+
+                    <p class="card-text">Price:
+                        <strong>{% price_after_discount course.price course.discount as price %}
+                            {{ price|leva }}
+                        </strong>
+                    </p>
+
+                    <form action="{% url 'checkout' slug=course.slug %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-info"><i class="fa-solid fa-tag"></i> Finish Order</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block js %}
+    {% if error %}
+        <script>
+            window.onload = () => {
+                alert('{{ error }}')
+            }
+        </script>
+    {% endif %}
+
+{% endblock %}

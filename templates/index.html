@@ -1,0 +1,18 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+
+{% block title %}Index{% endblock %}
+
+{% block content %}
+    {% include 'utils/messages.html' %}
+    {% include 'sections/showcase_section.html' %}
+    {% include 'sections/info_section.html' %}
+    {% include 'sections/community_section.html' %}
+    {% include 'questions/questions.html' %}
+    {% include 'newsletter/newsletter_subscribe.html' %}
+    {% include 'sections/start_now_section.html' %}
+
+
+{% endblock %}
+

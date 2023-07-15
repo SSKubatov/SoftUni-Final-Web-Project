@@ -1,0 +1,40 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+
+{% block title %}My Courses{% endblock %}
+
+
+{% block content %}
+
+    <div class="container p-4">
+        <div class="p-5">
+        <div class="display-6">
+            My Courses
+        </div>
+            <hr >
+            <div class="row row-cols-1 row-cols-md-3 g-5 mt-1">
+                {% for uc in user_courses %}
+                    <div class="col mx-auto">
+                        <div class="card h-100 shadow-lg">
+                            <img class="card-img-top" src="{{ uc.course.thumbnail.url }}" alt="Card image cap">
+                            <div class="card-body mb-3">
+                                <h5 class="card-title"><strong>{{ uc.course.name }}</strong></h5>
+                                <hr>
+                            </div>
+
+                            <div class="row m-3 align-items-center">
+                                <div class="col text-center m-2">
+                                    <a href="{% url 'course page' slug=uc.course.slug %}" class="btn btn-secondary w-100">
+                                        <i class="fa-regular fa-circle-play"></i> Watch
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

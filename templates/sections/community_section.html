@@ -1,0 +1,32 @@
+{% load static %}
+
+<div class=" bg-white">
+    <div class="container">
+        <div class="row py-md-5 align-items-center">
+
+            <div class="col-12 col-md-6 p-3 p-md-5 text-center text-md-start ">
+
+                <h2 class="showcase-heading text-center">Together in a Supportive Community</h2>
+
+                <p class="showcase-text">
+                    Join our Python learning community and connect with like-minded individuals who share your
+                    passion for programming. Our community is a supportive and friendly place where learners of all
+                    levels can ask questions, share knowledge, and collaborate on projects. With our community by
+                    your side, you'll have the resources and encouragement you need to succeed in your Python
+                    learning journey.
+                </p>
+                <div class="text-center text-md-start mt-5">
+                <a href="{% url 'sign up' %}" class="btn btn-dark rounded-pill fw-500 fs-5 px-4">
+                    Let's go
+                </a>
+                </div>
+            </div>
+
+
+            <div class="col">
+                <img class="img-fluid d-none d-md-block" src="{% static 'images/community_art.png' %}" alt="alt1">
+            </div>
+
+        </div>
+    </div>
+</div>

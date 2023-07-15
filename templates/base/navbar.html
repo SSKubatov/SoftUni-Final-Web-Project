@@ -1,0 +1,87 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+
+    <div class="container">
+
+        <a class="navbar-brand logo fs-1" href="{% url 'home' %}">
+            <span class="text-warning">S</span>nake<span class="text-warning">S</span>cholars
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <ul class="navbar-nav ms-auto">
+
+                {% if user.is_superuser  or user.is_staff %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+                            Administration
+                        </a>
+                        <ul class="dropdown-menu ">
+
+                            <li>
+                                <a class="dropdown-item" href="{% url 'send newsletter' %}">Newsletter</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'admin course create' %}">Create Course</a>
+                            </li>
+
+                        </ul>
+                    </li>
+                {% endif %}
+
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="{% url 'courses showcase' %}">Courses</a>
+                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-light"
+                           href="{% url 'profile details' pk=request.user.pk %}"
+                           role="button"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            {% if user.profile_picture %}
+                                <img src="{{ user.profile_picture.url }}" alt="Profile Image"
+                                     class="img-fluid rounded-circle"
+                                     style="width: 30px; height: 30px">
+                            {% else %}
+                                <img src="{% static 'images/blank-profile-pic.png' %}"
+                                     alt="Profile Image"
+                                     class="img-fluid rounded-circle"
+                                     style="width: 30px; height: 30px;">
+                            {% endif %}
+                        </a>
+                        <ul class="dropdown-menu ">
+
+                            <li>
+                                <a class="dropdown-item"
+                                   href="{% url 'profile details' pk=request.user.pk %}">Account</a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{% url 'my courses' %}">My Courses</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                            </li>
+                        </ul>
+
+                        {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="{% url 'sign in' %}">Sing In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-warning" href="{% url 'sign up' %}">Sing Up</a>
+                    </li>
+                {% endif %}
+            </ul>
+
+        </div>
+    </div>
+</nav>

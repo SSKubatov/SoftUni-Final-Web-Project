@@ -1,0 +1,59 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load course_custom_tags %}
+
+{% block title %}Courses{% endblock %}
+
+
+{% block content %}
+
+    <div class="container p-4">
+        <div class="p-5">
+            <div class="row row-cols-1 row-cols-md-3 g-5">
+                {% for course in courses %}
+                    <div class="col">
+                        <div class="card h-100 shadow-lg">
+                            <img class="card-img-top" src="{{ course.thumbnail.url }}" alt="Card image cap">
+                            <div class="card-body mb-3">
+                                <h5 class="card-title"><strong>{{ course.name }}</strong></h5>
+                                <hr>
+                            </div>
+                            <div class="text-center price">
+                                <p class="card-text text-muted price">
+                                    Regular Price
+                                    <del>{{ course.price_in_leva }}</del>
+                                </p>
+                                <p class="card-text text-danger">Save {{ course.discount }}% off</p>
+                                <p class="card-text text-dark">
+                                    <strong>{% price_after_discount course.price course.discount as price %}
+                                        {{ price|leva }}
+                                    </strong>
+                                </p>
+                            </div>
+                            <div class="row m-3 align-items-center">
+                                <div class="col text-center m-2">
+                                    <a href="{% url 'checkout' slug=course.slug %}" class="btn btn-warning w-100">
+                                        Enroll
+                                    </a>
+                                </div>
+                                <div class="col text-center m-2">
+                                    <a href="{% url 'course page' slug=course.slug %}" class="btn btn-info w-100">
+                                        Preview
+                                    </a>
+                                </div>
+                                {% if user.is_authenticated and user.is_staff %}
+                                    <div class="col text-center m-2">
+                                        <a href="{% url 'admin course delete' slug=course.slug %}"
+                                           class="btn btn-danger">Delete Course
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
