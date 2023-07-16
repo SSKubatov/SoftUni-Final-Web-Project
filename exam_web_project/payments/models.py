@@ -26,12 +26,15 @@ class UserCourseEnroll(models.Model):
 
 
 class Payment(models.Model):
+    ORDER_ID_MAX_LEN = 250
+    USER_MAX_LEN = 50
+
     order_id = models.CharField(
-        max_length=250,
+        max_length=ORDER_ID_MAX_LEN,
         null=False
     )
     user = models.CharField(
-        max_length=50,
+        max_length=USER_MAX_LEN,
         null=False
     )
 
@@ -46,4 +49,6 @@ class Payment(models.Model):
 
     status = models.BooleanField(default=False)
 
-
+    def mark_as_paid(self):
+        self.status = True
+        self.save()

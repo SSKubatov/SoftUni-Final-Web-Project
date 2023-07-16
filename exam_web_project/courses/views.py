@@ -15,6 +15,15 @@ class CoursesShowcase(views.ListView):
     queryset = Course.objects.all().order_by('created_at')
     context_object_name = 'courses'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if self.request.user.is_authenticated:
+            enrolled_courses = UserCourseEnroll.objects.filter(user=self.request.user).values_list('course', flat=True)
+            context['enrolled_courses'] = enrolled_courses
+
+        return context
+
 
 @method_decorator(login_required(login_url='sign in'), name='dispatch')
 class MyCourses(views.ListView):
@@ -88,5 +97,3 @@ class AdminCourseDeleteView(views.DeleteView):
         success_url = self.get_success_url()
         self.object.delete()
         return redirect(success_url)
-
-

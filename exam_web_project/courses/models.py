@@ -87,20 +87,24 @@ class CourseProperty(models.Model):
 
 
 class Lesson(CourseProperty):
+    CONTENT_MAX_LEN = 100
+
     content = models.CharField(
-        max_length=100,
+        max_length=CONTENT_MAX_LEN,
 
     )
 
 
 class Video(CourseProperty):
+    VIDEO_ID_MAX_LEN = 50
+
     serial_number = models.IntegerField(
         null=False,
         blank=False,
     )
 
     video_id = models.CharField(
-        max_length=50,
+        max_length=VIDEO_ID_MAX_LEN,
         null=False,
     )
 

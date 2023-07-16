@@ -1,4 +1,5 @@
 import stripe
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -11,35 +12,38 @@ from exam_web_project.payments.models import Payment, UserCourseEnroll
 from exam_web_project.core.utils.payments_utils import get_discounted_price
 from exam_web_project.payments.services import StripeService, CourseEnrollmentService
 
-
 UserModel = get_user_model()
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
 
-stripe_service = StripeService()
-course_enrollment_service = CourseEnrollmentService()
-
 
 @login_required(login_url='sign in')
 def checkout(request, slug):
+    ALREADY_SUBCRIBED_MESSAGE = "You are already purchased this course."
+
     user = request.user
     course = get_object_or_404(Course, slug=slug)
     lessons = Lesson.objects.filter(course=course)
-    error = None
 
     if request.method == "POST":
-        succeed, message = course_enrollment_service.enroll_user_in_course(course, user)
-        if succeed:
-            session_url = stripe_service.create_checkout_session(course, user)
-            return redirect(session_url, code=303)
+        stripe_services = StripeService()
+        course_enrollment_service = CourseEnrollmentService()
 
-        error = message
+        session_url = stripe_services.create_checkout_session(course, user)
+        order_id = stripe_services.get_checkout_session_id
+        user_already_enroll = course_enrollment_service.check_if_user_enroll_in_course(course, user)
+
+        if user_already_enroll:
+            messages.error(request, ALREADY_SUBCRIBED_MESSAGE)
+            return redirect('courses showcase')
+
+        Payment.objects.create(order_id=order_id, user=user)
+        return redirect(session_url, code=303)
 
     context = {
         'course': course,
         'course_price': get_discounted_price(course.price, course.discount) / 100,
-        'error': error,
         'lessons': lessons,
     }
 
@@ -50,6 +54,9 @@ def success(request):
     checkout_session_id = request.GET.get('session_id', None)
     session = stripe.checkout.Session.retrieve(checkout_session_id)
     customer = stripe.Customer.retrieve(session.customer)
+
+    payment = Payment.objects.get(order_id=checkout_session_id)
+    payment.mark_as_paid()
 
     context = {
         'customer': customer,
@@ -83,21 +90,15 @@ def webhook(request):
         order_id = session['id']
 
         user_id = session['metadata']['user_id']
-        user = UserModel.objects.get(id=user_id)
+        user = get_object_or_404(UserModel, id=user_id)
 
         course_id = session['metadata']['course_id']
-        course = Course.objects.get(id=course_id)
+        course = get_object_or_404(Course, id=course_id)
 
-        user_course = UserCourseEnroll.objects.create(
-            user=user,
-            course=course,
-        )
+        course_enrollment_service = CourseEnrollmentService()
+        user_course = course_enrollment_service.enroll_user_to_course(course=course, user=user)
 
-        payment = Payment.objects.create(
-            order_id=order_id,
-            user=user,
-            user_course=user_course,
-            status=True,
-        )
+        payment = Payment.objects.get(order_id=order_id, user_course=user_course)
+        payment.save()
 
     return HttpResponse(status=200)

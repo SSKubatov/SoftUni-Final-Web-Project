@@ -9,7 +9,6 @@ from exam_web_project.accounts.forms import UserCreateForm, UserLoginForm, Chang
 UserModel = get_user_model()
 
 
-# Create your views here.
 class SignUpView(views.CreateView):
     template_name = 'accounts/sing-up-page.html'
     form_class = UserCreateForm

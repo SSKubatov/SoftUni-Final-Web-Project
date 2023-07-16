@@ -1,5 +1,7 @@
-{% extends 'index.html' %}
+{% extends 'base/base.html' %}
 {% load static %}
+{% block title %}404{% endblock %}
+
 {% block content %}
 
     <div class="container mt-3">
@@ -7,6 +9,14 @@
             <img class="responsive-image" src="{% static 'images/404.png' %}" alt="error">
         </a>
     </div>
+    <div class="container">
+        <h1>Page Not Found</h1>
+        <p>Sorry, the page you are looking for does not exist.</p>
+        <a class="btn" href="{% url 'home' %}">
+            <img class="responsive-image" src="{% static 'images/404.png' %}" alt="error">
+        </a>
+    </div>
+
 
 {% endblock %}
 

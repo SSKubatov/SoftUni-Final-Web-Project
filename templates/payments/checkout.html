@@ -44,13 +44,3 @@
     </section>
 {% endblock %}
 
-{% block js %}
-    {% if error %}
-        <script>
-            window.onload = () => {
-                alert('{{ error }}')
-            }
-        </script>
-    {% endif %}
-
-{% endblock %}

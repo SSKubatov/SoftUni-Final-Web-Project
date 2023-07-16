@@ -3,14 +3,14 @@ from django.urls import reverse
 
 from exam_web_project import settings
 from exam_web_project.core.utils.payments_utils import get_discounted_price
-from exam_web_project.payments.models import UserCourseEnroll
+from exam_web_project.payments.models import UserCourseEnroll, Payment
 
 
 class StripeService:
     MY_DOMAIN = 'http://127.0.0.1:8000'
 
     def __init__(self):
-        self.stripe_api_key = stripe.api_key
+        self.session_id = None
 
     def create_checkout_session(self, course, user):
         course_price = get_discounted_price(course.price, course.discount)
@@ -38,18 +38,23 @@ class StripeService:
             },
         )
 
+        self.session_id = session.id
         return session.url
+
+    @property
+    def get_checkout_session_id(self):
+        return self.session_id
 
 
 class CourseEnrollmentService:
-    ENROLL_SUCCESS_MESSAGE = 'Enrollment successful'
-    ENROLL_FAIL_MESSAGE = 'You are already enrolled in this course'
 
-    def enroll_user_in_course(self, course, user):
+    @staticmethod
+    def check_if_user_enroll_in_course(course, user):
         user_course_enroll = UserCourseEnroll.objects.filter(user=user, course=course).exists()
 
         if user_course_enroll:
-            return False, self.ENROLL_SUCCESS_MESSAGE
-        else:
-            UserCourseEnroll.objects.create(user=user, course=course)
-            return True, self.ENROLL_FAIL_MESSAGE
+            return True
+
+    @staticmethod
+    def enroll_user_to_course(course, user):
+        UserCourseEnroll.objects.create(user=user, course=course)
