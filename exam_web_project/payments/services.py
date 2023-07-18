@@ -1,4 +1,6 @@
 import stripe
+from django.contrib import messages
+from django.shortcuts import redirect
 from django.urls import reverse
 
 from exam_web_project import settings
@@ -48,13 +50,15 @@ class StripeService:
 
 class CourseEnrollmentService:
 
-    @staticmethod
-    def check_if_user_enroll_in_course(course, user):
-        user_course_enroll = UserCourseEnroll.objects.filter(user=user, course=course).exists()
+    def __init__(self, user, course):
+        self.user = user
+        self.course = course
 
-        if user_course_enroll:
-            return True
+    def check_if_user_enroll_in_course(self):
+        return UserCourseEnroll.objects.filter(user=self.user, course=self.course).exists()
 
-    @staticmethod
-    def enroll_user_to_course(course, user):
-        UserCourseEnroll.objects.create(user=user, course=course)
+    def enroll_user_to_course(self):
+        user_already_enrolled = self.check_if_user_enroll_in_course()
+
+        if not user_already_enrolled:
+            return UserCourseEnroll.objects.create(user=self.user, course=self.course)

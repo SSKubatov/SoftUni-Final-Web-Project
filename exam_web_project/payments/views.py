@@ -20,7 +20,7 @@ endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
 
 @login_required(login_url='sign in')
 def checkout(request, slug):
-    ALREADY_SUBCRIBED_MESSAGE = "You are already purchased this course."
+    ALREADY_SUBSCRIBED_MESSAGE = "You are already purchased this course."
 
     user = request.user
     course = get_object_or_404(Course, slug=slug)
@@ -28,17 +28,18 @@ def checkout(request, slug):
 
     if request.method == "POST":
         stripe_services = StripeService()
-        course_enrollment_service = CourseEnrollmentService()
+        course_enrollment_service = CourseEnrollmentService(user, course)
 
         session_url = stripe_services.create_checkout_session(course, user)
         order_id = stripe_services.get_checkout_session_id
-        user_already_enroll = course_enrollment_service.check_if_user_enroll_in_course(course, user)
+        user_already_enroll = course_enrollment_service.check_if_user_enroll_in_course()
 
         if user_already_enroll:
-            messages.error(request, ALREADY_SUBCRIBED_MESSAGE)
+            messages.error(request, ALREADY_SUBSCRIBED_MESSAGE)
             return redirect('courses showcase')
 
         Payment.objects.create(order_id=order_id, user=user)
+
         return redirect(session_url, code=303)
 
     context = {
@@ -55,7 +56,17 @@ def success(request):
     session = stripe.checkout.Session.retrieve(checkout_session_id)
     customer = stripe.Customer.retrieve(session.customer)
 
+    user_id = session['metadata']['user_id']
+    user = get_object_or_404(UserModel, id=user_id)
+
+    course_id = session['metadata']['course_id']
+    course = get_object_or_404(Course, id=course_id)
+
+    course_enrollment_service = CourseEnrollmentService(user, course)
+    user_course = course_enrollment_service.enroll_user_to_course()
+
     payment = Payment.objects.get(order_id=checkout_session_id)
+    payment.enroll_user_to_course(user_course)
     payment.mark_as_paid()
 
     context = {
@@ -95,10 +106,11 @@ def webhook(request):
         course_id = session['metadata']['course_id']
         course = get_object_or_404(Course, id=course_id)
 
-        course_enrollment_service = CourseEnrollmentService()
-        user_course = course_enrollment_service.enroll_user_to_course(course=course, user=user)
+        course_enrollment_service = CourseEnrollmentService(user, course)
+        user_course = course_enrollment_service.enroll_user_to_course()
 
-        payment = Payment.objects.get(order_id=order_id, user_course=user_course)
+        payment = Payment.objects.get(order_id=order_id)
+        payment.user_course = user_course
         payment.save()
 
     return HttpResponse(status=200)

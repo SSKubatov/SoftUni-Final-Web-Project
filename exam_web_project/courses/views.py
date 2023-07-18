@@ -5,8 +5,8 @@ from django.utils.decorators import method_decorator
 
 from django.views import generic as views
 
-from exam_web_project.courses.forms import CourseForm
-from exam_web_project.courses.models import Course, Video, Resource
+from exam_web_project.courses.forms import CourseForm, LessonForm
+from exam_web_project.courses.models import Course, Video, Resource, Lesson
 from exam_web_project.payments.models import UserCourseEnroll
 
 
@@ -94,6 +94,42 @@ class AdminCourseDeleteView(views.DeleteView):
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
+        self.object.delete()
+        return redirect(success_url)
+
+
+@method_decorator(login_required(login_url='sign in'), name='dispatch')
+@method_decorator(user_passes_test(lambda user: user.is_staff), name='dispatch')
+class AdminLessonCreateView(views.CreateView):
+    model = Lesson
+    form_class = LessonForm
+    template_name = "courses/admin/lesson_create.html"
+
+    def get_success_url(self):
+        return reverse_lazy('courses showcase')
+
+
+@method_decorator(login_required(login_url='sign in'), name='dispatch')
+@method_decorator(user_passes_test(lambda user: user.is_staff), name='dispatch')
+class AdminLessonDeleteView(views.DeleteView):
+    model = Lesson
+    success_url = reverse_lazy('courses showcase')
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
         success_url = self.get_success_url()
         self.object.delete()
         return redirect(success_url)
+
+
+class AdminCourseLessonsView(views.TemplateView):
+    template_name = 'courses/admin/course_lessons.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        course_slug = kwargs['slug']
+        course = Course.objects.get(slug=course_slug)
+        lessons = Lesson.objects.filter(course=course)
+        context['course'] = course
+        context['lessons'] = lessons
+        return context

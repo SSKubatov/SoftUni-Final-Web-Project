@@ -49,6 +49,10 @@ class Payment(models.Model):
 
     status = models.BooleanField(default=False)
 
+    def enroll_user_to_course(self, user_course):
+        self.user_course = user_course
+        self.save()
+
     def mark_as_paid(self):
         self.status = True
         self.save()

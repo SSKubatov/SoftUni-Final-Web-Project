@@ -1,0 +1,43 @@
+{% extends 'base/base.html' %}
+
+
+{% block title %}Courses Lessons{% endblock %}
+
+
+{% block content %}
+
+    <div class="container-fluid px-4 px-md-5 py-4 py-md-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-4">
+                <div class="card mt-5 mb-3 shadow-lg p-4 p-md-5">
+                    <h4 class="text-center text-secondary logo">{{ course }} Lessons</h4>
+                    <br>
+                    {% for lesson in lessons %}
+                        <form action="{% url 'admin lesson delete' pk=lesson.pk %}" method="post" class="form-floating">
+                            {% csrf_token %}
+                            <br>
+
+
+                            <div class="row align-items-center">
+                                <div class="col-7 m-3">
+                                    <p><strong>{{ lesson.title }}</strong>: {{ lesson.content }}</p>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-outline-danger"
+                                            onclick="return confirm('Are you sure you want to delete {{ lesson.title }}?')">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+
+                        </form>
+                    {% empty %}
+                        <p>No lessons available.</p>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
