@@ -42,25 +42,36 @@
                                 {% else %}
                                     <div class="col text-center m-2">
                                         <a href="{% url 'checkout' slug=course.slug %}" class="btn btn-warning w-100">
-                                            Enroll
+                                            <i class="fa-regular fa-credit-card"></i> Enroll
                                         </a>
                                     </div>
                                     <div class="col text-center m-2">
                                         <a href="{% url 'course page' slug=course.slug %}" class="btn btn-info w-100">
-                                            Preview
+                                            <i class="fa-regular fa-eye"></i> Preview
                                         </a>
                                     </div>
                                 {% endif %}
                                 {% if user.is_authenticated and user.is_staff %}
+                                    <p class="text text-center mt-3"> Staff Menu</p>
                                     <hr>
+
+
                                     <div class="col text-center m-2">
-                                        <a href="{% url 'admin course delete' slug=course.slug %}"
-                                           class="btn btn-danger">Delete Course
+                                        <a href="{% url 'admin lessons display' slug=course.slug %}"
+                                           class="btn btn-outline-primary btn-block">
+                                            <i class="fa-regular fa-eye"></i> All Lessons
                                         </a>
                                     </div>
                                     <div class="col text-center m-2">
-                                        <a href="{% url 'admin lessons display' slug=course.slug %}"
-                                           class="btn btn-danger">Delete Lesson
+                                        <a href="{% url 'admin video display' slug=course.slug %}"
+                                           class="btn btn-outline-primary btn-block">
+                                            <i class="fa-regular fa-eye"></i> All Videos
+                                        </a>
+                                    </div>
+                                    <div class="col text-center m-2">
+                                        <a href="{% url 'admin course delete' slug=course.slug %}"
+                                           class="btn btn-outline-danger btn-block">
+                                            <i class="fa-regular fa-trash-can"></i> Course
                                         </a>
                                     </div>
                                 {% endif %}
