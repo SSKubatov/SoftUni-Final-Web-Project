@@ -15,11 +15,13 @@
                     your side, you'll have the resources and encouragement you need to succeed in your Python
                     learning journey.
                 </p>
-                <div class="text-center text-md-start mt-5">
-                <a href="{% url 'sign up' %}" class="btn btn-dark rounded-pill fw-500 fs-5 px-4">
-                    Let's go
-                </a>
-                </div>
+                {% if not user.is_authenticated %}
+                    <div class="text-center text-md-start mt-5">
+                        <a href="{% url 'sign up' %}" class="btn btn-dark rounded-pill fw-500 fs-5 px-4">
+                            Let's go
+                        </a>
+                    </div>
+                {% endif %}
             </div>
 
 

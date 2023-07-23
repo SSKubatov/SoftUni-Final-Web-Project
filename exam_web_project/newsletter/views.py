@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django import views
@@ -32,12 +33,15 @@ class NewsletterSubscribeView(views.View):
         return self.post(request, *args, **kwargs)
 
 
-class SendNewsletterEmailView(views.View):
+class SendNewsletterEmailView(LoginRequiredMixin, UserPassesTestMixin, views.View):
     SEND_MESSAGE_SUCCESS = "Newsletter are send successful."
     SEND_MESSAGE_FAIL = "Fail to send the message."
 
     form_class = CustomNewsletterForm
     template_name = 'newsletter/send_newsletter.html'
+
+    def test_func(self):
+        return self.request.user.is_staff or self.request.user.is_superuser
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)

@@ -19,12 +19,13 @@
                     community of learners will help you become a confident Python programmer in no time. Join us
                     today and unlock your potential with Python!
                 </p>
-                <div class="text-center text-md-end mt-5">
-                    <a href="{% url 'sign up' %}" class="btn btn-warning rounded-pill fw-500 fs-5 px-4">
-                        Let's go
-                    </a>
-                </div>
-
+                {% if not user.is_authenticated %}
+                    <div class="text-center text-md-end mt-5">
+                        <a href="{% url 'sign up' %}" class="btn btn-warning rounded-pill fw-500 fs-5 px-4">
+                            Let's go
+                        </a>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

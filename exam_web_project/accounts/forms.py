@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import forms as auth_forms, get_user_model
 
-from exam_web_project.core.custom_validators.validators import validate_username
+from core.custom_validators.validators import validate_username
 
 UserModel = get_user_model()
 
@@ -43,10 +43,6 @@ class UserCreateForm(BaseUserCreateForm):
         return username
 
 
-class UserAdminCreateForm(BaseUserCreateForm):
-    pass
-
-
 class UserEditForm(auth_forms.UserChangeForm):
     class Meta:
         model = UserModel
@@ -81,3 +77,8 @@ class ChangePasswordForm(auth_forms.PasswordChangeForm):
         label='Confirm New Password',
         widget=forms.PasswordInput(attrs={'class': 'form-control'})
     )
+
+
+# <---------------- ADMIN ------------->
+class UserStaffCreateForm(BaseUserCreateForm):
+    pass

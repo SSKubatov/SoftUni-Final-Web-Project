@@ -1,10 +1,11 @@
 from django.conf import settings
-from django.contrib.auth import views as auth_views, get_user_model
+from django.contrib.auth import views as auth_views, get_user_model, login
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
 
-from exam_web_project.accounts.forms import UserCreateForm, UserLoginForm, ChangePasswordForm
+from exam_web_project.accounts.forms import UserCreateForm, UserLoginForm, ChangePasswordForm, UserStaffCreateForm
 
 UserModel = get_user_model()
 
@@ -13,6 +14,11 @@ class SignUpView(views.CreateView):
     template_name = 'accounts/sing-up-page.html'
     form_class = UserCreateForm
     success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        result = super().form_valid(form)
+        login(self.request, self.object)
+        return result
 
 
 class SignInView(auth_views.LoginView):
@@ -55,3 +61,23 @@ class ChangePasswordView(auth_views.PasswordChangeView):
 
 class ChangePasswordDoneView(auth_views.PasswordChangeDoneView):
     template_name = 'accounts/password/password-change-done.html'
+
+
+# <---------- ADMIN ---------->
+class UserStaffCreateView(SuccessMessageMixin, auth_views.FormView):
+    template_name = 'user_admin_create.html'
+    form_class = UserStaffCreateForm
+    success_url = reverse_lazy('home')
+    success_message = "Admin user created successfully."
+
+    def form_valid(self, form):
+
+        user = form.save()
+
+        admin_group = Group.objects.get(name='Admins')
+        user.groups.add(admin_group)
+
+        # Perform additional actions if needed
+        # For example, send a welcome email to the new admin user
+
+        return super().form_valid(form)

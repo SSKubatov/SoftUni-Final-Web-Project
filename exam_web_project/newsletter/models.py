@@ -1,7 +1,7 @@
 from django.core import validators
 from django.db import models
 
-from exam_web_project.core.mixins.custom_mixins import TimestampMixin
+from core.mixins.custom_mixins import TimestampMixin
 from exam_web_project.newsletter.mixins import EmailStatus
 
 
@@ -30,7 +30,7 @@ class Newsletter(TimestampMixin, models.Model):
     )
 
     status = models.CharField(
-        max_length=EmailStatus.max_len(),
+        max_length=EmailStatus.max_length(),
         choices=EmailStatus.choices(),
     )
 

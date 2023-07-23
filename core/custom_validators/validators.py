@@ -2,7 +2,7 @@ import re
 
 from django.core.exceptions import ValidationError
 
-from exam_web_project.core.utils.utils import convert_to_megabytes
+from core.utils.common_utils import convert_to_megabytes
 
 
 def validate_username(value):
@@ -10,7 +10,8 @@ def validate_username(value):
     if not re.match(pattern, value):
         raise ValidationError(
             "Username must start with a letter and can contain only letters, numbers, and underscores."
-            " It should be between 5 and 15 characters long.")
+            " It should be between 5 and 15 characters long."
+        )
 
 
 def validate_email(value):

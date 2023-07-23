@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from exam_web_project.core.utils.payments_utils import get_discounted_price
+from core.utils.payments_utils import get_discounted_price
 from exam_web_project.courses.models import Course, Lesson, Video, Resource, FileProperty, URLProperty
 
 

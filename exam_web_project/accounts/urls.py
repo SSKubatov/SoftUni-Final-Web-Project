@@ -2,7 +2,7 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
 from exam_web_project.accounts.views import SignUpView, SignInView, SignOutView, UserProfileView, UserEditProfileView, \
-    ChangePasswordView, ChangePasswordDoneView
+    ChangePasswordView, ChangePasswordDoneView, UserStaffCreateView
 
 urlpatterns = (
     path('sing-up/', SignUpView.as_view(), name='sign up'),
@@ -24,6 +24,9 @@ urlpatterns = (
              name='password_reset_confirm'),
         path('complete/', auth_views.PasswordResetCompleteView.as_view(),
              name='password_reset_complete'),
-    ]))
+    ])),
+    path('admin/', include([
+        path('add-staff/', UserStaffCreateView.as_view(), name='create staff user'),
+    ])),
 
 )

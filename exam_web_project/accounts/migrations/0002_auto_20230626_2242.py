@@ -2,7 +2,7 @@
 
 import django.core.validators
 from django.db import migrations, models
-import exam_web_project.core.custom_validators.validators
+import core
 
 
 class Migration(migrations.Migration):
@@ -21,21 +21,22 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='appuser',
             name='profile_picture',
-            field=models.ImageField(blank=True, null=True, upload_to='files/user_images', validators=[exam_web_project.core.custom_validators.validators.validate_image_max_size]),
+            field=models.ImageField(blank=True, null=True, upload_to='files/user_images', validators=[
+                core.custom_validators.validators.validate_image_max_size]),
         ),
         migrations.AlterField(
             model_name='appuser',
             name='email',
-            field=models.EmailField(max_length=254, validators=[exam_web_project.core.custom_validators.validators.validate_email]),
+            field=models.EmailField(max_length=254, validators=[core.custom_validators.validators.validate_email]),
         ),
         migrations.AlterField(
             model_name='appuser',
             name='first_name',
-            field=models.CharField(max_length=30, validators=[django.core.validators.MinLengthValidator(2), exam_web_project.core.custom_validators.validators.validate_letters_only]),
+            field=models.CharField(max_length=30, validators=[django.core.validators.MinLengthValidator(2), core.custom_validators.validators.validate_letters_only]),
         ),
         migrations.AlterField(
             model_name='appuser',
             name='last_name',
-            field=models.CharField(max_length=30, validators=[django.core.validators.MinLengthValidator(2), exam_web_project.core.custom_validators.validators.validate_letters_only]),
+            field=models.CharField(max_length=30, validators=[django.core.validators.MinLengthValidator(2), core.custom_validators.validators.validate_letters_only]),
         ),
     ]

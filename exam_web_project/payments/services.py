@@ -1,11 +1,8 @@
 import stripe
-from django.contrib import messages
-from django.shortcuts import redirect
 from django.urls import reverse
 
-from exam_web_project import settings
-from exam_web_project.core.utils.payments_utils import get_discounted_price
-from exam_web_project.payments.models import UserCourseEnroll, Payment
+from core.utils.payments_utils import get_discounted_price
+from exam_web_project.payments.models import UserCourseEnroll
 
 
 class StripeService:

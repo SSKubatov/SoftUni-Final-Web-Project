@@ -47,10 +47,10 @@
                                                     id="{{ field.id_for_label }}"
                                                     name="{{ field.html_name }}"
                                                     {% if field.field.required %}required{% endif %}>
-                                                {% for value, label in field.field.choices %}
+                                                {% for value, _ in field.field.choices %}
                                                     <option value="{{ value }}"
                                                             {% if field.value == value %}selected{% endif %}>
-                                                        {{ label }}
+                                                        {{ value }}
                                                     </option>
                                                 {% endfor %}
                                             </select>

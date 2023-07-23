@@ -4,8 +4,7 @@ from django.core import validators
 from django.db import models
 
 from exam_web_project.accounts.mixins import Gender
-from exam_web_project.core.custom_validators.validators import validate_image_max_size, \
-    validate_letters_only, validate_email
+from core.custom_validators.validators import validate_letters_only, validate_email, validate_image_max_size
 
 
 class AppUser(auth_models.AbstractUser):
@@ -40,7 +39,8 @@ class AppUser(auth_models.AbstractUser):
 
     gender = models.CharField(
         choices=Gender.choices(),
-        max_length=Gender.max_len(),
+        max_length=Gender.max_length(),
+        default=Gender.DO_NOT_SHOW.value
     )
 
     profile_picture = models.ImageField(

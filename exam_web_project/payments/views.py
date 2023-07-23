@@ -8,8 +8,8 @@ from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 
 from exam_web_project.courses.models import Course, Lesson
-from exam_web_project.payments.models import Payment, UserCourseEnroll
-from exam_web_project.core.utils.payments_utils import get_discounted_price
+from exam_web_project.payments.models import Payment
+from core.utils.payments_utils import get_discounted_price
 from exam_web_project.payments.services import StripeService, CourseEnrollmentService
 
 UserModel = get_user_model()
@@ -18,7 +18,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
 
 
-@login_required(login_url='sign in')
+@login_required
 def checkout(request, slug):
     ALREADY_SUBSCRIBED_MESSAGE = "You are already purchased this course."
 

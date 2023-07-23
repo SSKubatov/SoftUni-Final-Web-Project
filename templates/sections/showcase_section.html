@@ -9,12 +9,19 @@
                         Start learning Python today with our easy-to-follow courses, hands-on projects, and supportive
                         community.
                     </p>
-                    <button type="button" class="btn btn-dark rounded-pill fw-500 fs-5 px-4 ">Start now!</button>
+                    {% if not user.is_authenticated %}
+                        <a href="{% url 'sign up' %}"
+                           type="button"
+                           class="btn btn-dark rounded-pill fw-500 fs-5 px-4 ">
+                            Start now!
+                        </a>
+                    {% endif %}
                 </div>
 
                 <div class="col">
                     <img class="img-fluid d-none d-md-block" src="{% static 'images/splash_art.png' %}" alt="alt1">
                 </div>
+
 
             </div>
         </div>

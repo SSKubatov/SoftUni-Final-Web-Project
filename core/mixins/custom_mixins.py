@@ -12,8 +12,8 @@ class TimestampMixin(models.Model):
 class ChoicesEnumMixin:
     @classmethod
     def choices(cls):
-        return [(x.name, x.value) for x in cls]
+        return [(choice.value, choice.name) for choice in cls]
 
     @classmethod
-    def max_len(cls):
-        return max(len(name) for name, _ in cls.choices())
+    def max_length(cls):
+        return max(len(choice.value) for choice in cls)
