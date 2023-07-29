@@ -1,0 +1,2 @@
+# SnakeScholars - Educational Python Language Courses Website
+SnakeScholars is a web application built using Django, designed to provide a platform for offering educational Python language courses. The website aims to create an interactive learning environment for aspiring programmers and enthusiasts who wish to master Python and its applications. By offering a variety of courses, SnakeScholars strives to cater to students of different skill levels, ranging from beginners to advanced Python developers.
