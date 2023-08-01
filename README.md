@@ -1,10 +1,18 @@
 # SnakeScholars - Educational Python Language Courses Website
 ![Screenshot 2023-07-29 112649](https://github.com/SSKubatov/SoftUni-Final-Web-Project/assets/107368327/f2430e67-9116-4c3f-a223-a4da1b71bc68)
-## SnakeScholars is a web application built using Django, designed to provide a platform for offering educational Python language courses. The website aims to create an interactive learning environment for aspiring programmers and enthusiasts who wish to master Python and its applications. By offering a variety of courses, SnakeScholars strives to cater to students of different skill levels, ranging from beginners to advanced Python developers.
-# Introduction
+SnakeScholars is a web application built using Django, designed to provide a platform for offering educational Python language courses. The website aims to create an interactive learning environment for aspiring programmers and enthusiasts who wish to master Python and its applications. By offering a variety of courses, SnakeScholars strives to cater to students of different skill levels, ranging from beginners to advanced Python developers.
+
+## Table of Contents
+
+1. [Introduction](#introduction)
+2. [Features](#features)
+3. [Getting Started](#getting-started)
+4. [Installation](#installation)
+
+## Introduction
 Python is a versatile and widely-used programming language, making it an excellent choice for educational purposes. SnakeScholars is created with the vision of making Python education accessible, engaging, and rewarding. The platform offers a seamless learning experience by combining informative course content, hands-on exercises, and interactive challenges.
 
-# Features
+## Features
 * Course Management: SnakeScholars provides a user-friendly interface for managing courses, allowing administrators to create, update, and organize course content effectively.
 
 * User Authentication: Students can create accounts, log in, and track their learning progress over time.
@@ -15,11 +23,11 @@ Python is a versatile and widely-used programming language, making it an excelle
 
 * Assessment and Feedback: SnakeScholars conducts regular assessments to evaluate students' performance and provide constructive feedback.
 
-# Getting Started
+## Getting Started
  Before diving into the Python courses offered by SnakeScholars, users need to create an account. Once registered, they can log in to explore the available courses and start their Python learning journey.
 
 
-# Installation
+## Installation
 To run SnakeScholars locally on your machine, follow these steps:
 
 1. Clone this GitHub repository: `git clone https://github.com/SSKubatov/SoftUni-Final-Web-Project.git`
