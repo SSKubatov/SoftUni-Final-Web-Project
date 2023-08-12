@@ -1,4 +1,6 @@
-def get_discounted_price(price, discount):
+def get_discounted_price_rounded_to_thousands(price, discount):
     return int((price - (price * (discount / 100))) * 100)
 
 
+def get_discounted_price(price, discount):
+    return int((price - (price * (discount / 100))))

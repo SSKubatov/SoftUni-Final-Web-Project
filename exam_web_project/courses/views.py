@@ -8,7 +8,7 @@ from django.views import generic as views
 
 from exam_web_project.courses.forms import CourseForm, LessonForm, VideoForm
 from exam_web_project.courses.models import Course, Video, Resource, Lesson
-from exam_web_project.payments.models import UserCourseEnroll
+from exam_web_project.payments.models import UserCourseEnroll, Payment
 
 
 class CoursesShowcase(views.ListView):
@@ -47,11 +47,21 @@ class CoursePageView(views.DetailView):
         sorted_videos = self.object.video_set.all().order_by("serial_number")
         serial_number = request.GET.get('lecture', 1)
         video = self.get_video(serial_number)
+        user_course = UserCourseEnroll.objects.get(user=self.request.user)
+        payment = Payment.objects.get(user_course=user_course, user=self.request.user)
+        resources = Resource.objects.filter(video=video)
+
+        if payment.status:
+            context = self.get_context_data(
+                video=video,
+                sorted_videos=sorted_videos,
+                resources=resources
+            )
+            return self.render_to_response(context)
 
         if not video.is_preview:
             return self.handle_video_access_denied(request)
 
-        resources = Resource.objects.filter(video=video)
         context = self.get_context_data(
             video=video,
             sorted_videos=sorted_videos,
@@ -65,7 +75,8 @@ class CoursePageView(views.DetailView):
         return video
 
     def handle_video_access_denied(self, request):
-        if not request.user.is_authenticated:
+        user = request.user.is_authenticated
+        if not user:
             next_url = request.GET.get('next')
             if next_url:
                 return redirect(next_url)

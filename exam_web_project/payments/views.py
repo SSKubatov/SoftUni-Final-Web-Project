@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from exam_web_project.courses.models import Course, Lesson
 from exam_web_project.payments.models import Payment
-from core.utils.payments_utils import get_discounted_price
+from core.utils.payments_utils import get_discounted_price_rounded_to_thousands, get_discounted_price
 from exam_web_project.payments.services import StripeService, CourseEnrollmentService
 
 UserModel = get_user_model()
@@ -44,7 +44,7 @@ def checkout(request, slug):
 
     context = {
         'course': course,
-        'course_price': get_discounted_price(course.price, course.discount) / 100,
+        'course_price': get_discounted_price(course.price, course.discount),
         'lessons': lessons,
     }
 

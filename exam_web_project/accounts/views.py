@@ -65,13 +65,12 @@ class ChangePasswordDoneView(auth_views.PasswordChangeDoneView):
 
 # <---------- ADMIN ---------->
 class UserStaffCreateView(SuccessMessageMixin, auth_views.FormView):
-    template_name = 'user_admin_create.html'
+    template_name = 'accounts/admin/create_staff_user.html'
     form_class = UserStaffCreateForm
     success_url = reverse_lazy('home')
     success_message = "Admin user created successfully."
 
     def form_valid(self, form):
-
         user = form.save()
 
         admin_group = Group.objects.get(name='Admins')

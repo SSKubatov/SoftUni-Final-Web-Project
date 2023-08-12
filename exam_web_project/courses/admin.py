@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from core.utils.payments_utils import get_discounted_price
+from core.utils.payments_utils import get_discounted_price_rounded_to_thousands
 from exam_web_project.courses.models import Course, Lesson, Video, Resource, FileProperty, URLProperty
 
 
@@ -37,7 +37,7 @@ class CourseAdmin(admin.ModelAdmin):
         return f'{course.price} лв.'
 
     def price_after_discount(self, course):
-        return f'{get_discounted_price(course.price, course.discount) / 100} лв.'
+        return f'{get_discounted_price_rounded_to_thousands(course.price, course.discount) / 100} лв.'
 
 
 @admin.register(Video)

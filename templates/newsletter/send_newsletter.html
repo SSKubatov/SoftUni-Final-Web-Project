@@ -17,7 +17,6 @@
                     <form action="{% url 'send newsletter' %}" method="post" class="form-floating">
                         {% csrf_token %}
                         {{ form|crispy }}
-
                         <br>
                         <button type="submit" class="btn btn-outline-success btn-block" value="Send">Send</button>
                     </form>

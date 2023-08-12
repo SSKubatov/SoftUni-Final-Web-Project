@@ -1,3 +1,5 @@
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit
 from django import forms
 from django.contrib.auth import forms as auth_forms, get_user_model
 
@@ -81,4 +83,13 @@ class ChangePasswordForm(auth_forms.PasswordChangeForm):
 
 # <---------------- ADMIN ------------->
 class UserStaffCreateForm(BaseUserCreateForm):
-    pass
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            'username',
+            'password1',
+            'password2',
+            Submit('submit', 'Create')
+        )

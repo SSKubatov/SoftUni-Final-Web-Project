@@ -1,7 +1,7 @@
 import stripe
 from django.urls import reverse
 
-from core.utils.payments_utils import get_discounted_price
+from core.utils.payments_utils import get_discounted_price_rounded_to_thousands
 from exam_web_project.payments.models import UserCourseEnroll
 
 
@@ -12,7 +12,7 @@ class StripeService:
         self.session_id = None
 
     def create_checkout_session(self, course, user):
-        course_price = get_discounted_price(course.price, course.discount)
+        course_price = get_discounted_price_rounded_to_thousands(course.price, course.discount)
         session = stripe.checkout.Session.create(
             line_items=[{
                 'price_data': {
