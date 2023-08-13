@@ -32,9 +32,7 @@ class MyCourses(LoginRequiredMixin, views.ListView):
 
     def get_queryset(self):
         user = self.request.user
-        if not user.is_staff or not user.is_superuser:
-            return UserCourseEnroll.objects.filter(user=user)
-        return UserCourseEnroll.objects.all()
+        return UserCourseEnroll.objects.filter(user=user)
 
 
 class CoursePageView(views.DetailView):
@@ -44,30 +42,34 @@ class CoursePageView(views.DetailView):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
+        course = self.object
         sorted_videos = self.object.video_set.all().order_by("serial_number")
         serial_number = request.GET.get('lecture', 1)
         video = self.get_video(serial_number)
-        user_course = UserCourseEnroll.objects.get(user=self.request.user)
-        payment = Payment.objects.get(user_course=user_course, user=self.request.user)
         resources = Resource.objects.filter(video=video)
+        try:
+            user_course = get_object_or_404(UserCourseEnroll, user=self.request.user, course=course)
+            payment = Payment.objects.get(user=self.request.user, user_course=user_course)
+            if payment.status:
+                video.is_preview = True
 
-        if payment.status:
+                context = self.get_context_data(
+                    video=video,
+                    sorted_videos=sorted_videos,
+                    resources=resources
+                )
+                return self.render_to_response(context)
+
+        except:
+            if not video.is_preview:
+                return self.handle_video_access_denied(request)
+
             context = self.get_context_data(
                 video=video,
                 sorted_videos=sorted_videos,
                 resources=resources
             )
             return self.render_to_response(context)
-
-        if not video.is_preview:
-            return self.handle_video_access_denied(request)
-
-        context = self.get_context_data(
-            video=video,
-            sorted_videos=sorted_videos,
-            resources=resources
-        )
-        return self.render_to_response(context)
 
     def get_video(self, serial_number):
         course = self.object

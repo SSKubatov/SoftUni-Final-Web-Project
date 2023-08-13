@@ -1,5 +1,4 @@
 from django.urls import path, include
-
 from exam_web_project.courses.views import CoursePageView, CoursesShowcase, MyCourses, AdminCourseCreateView, \
     AdminCourseDeleteView, AdminLessonCreateView, AdminLessonDeleteView, AdminCourseLessonsView, AdminVideoCreateView, \
     AdminCourseVideoView, AdminVideoDeleteView
