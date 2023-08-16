@@ -68,28 +68,18 @@ class UserLoginForm(auth_forms.AuthenticationForm):
 class ChangePasswordForm(auth_forms.PasswordChangeForm):
     old_password = forms.CharField(
         label='Old Password',
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'type': 'password'})
+        widget=forms.PasswordInput(
+            attrs={'class': 'form-control', 'type': 'password'}),
     )
 
     new_password1 = forms.CharField(
         label='New Password',
-        widget=forms.PasswordInput(attrs={'class': 'form-control'})
+        widget=forms.PasswordInput(
+            attrs={'class': 'form-control'}),
     )
     new_password2 = forms.CharField(
         label='Confirm New Password',
-        widget=forms.PasswordInput(attrs={'class': 'form-control'})
+        widget=forms.PasswordInput(
+            attrs={'class': 'form-control'}),
     )
 
-
-# <---------------- ADMIN ------------->
-class UserStaffCreateForm(BaseUserCreateForm):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.layout = Layout(
-            'username',
-            'password1',
-            'password2',
-            Submit('submit', 'Create')
-        )
