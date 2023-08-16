@@ -2,7 +2,8 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
 from exam_web_project.accounts.views import SignUpView, SignInView, SignOutView, UserProfileView, UserEditProfileView, \
-    ChangePasswordView, ChangePasswordDoneView, UserStaffCreateView
+    ChangePasswordView, ChangePasswordDoneView, ResetPasswordView, ResetPasswordDoneView, ResetPasswordConfirmView, \
+    ResetPasswordComplete
 
 urlpatterns = (
     path('sing-up/', SignUpView.as_view(), name='sign up'),
@@ -17,16 +18,10 @@ urlpatterns = (
         path('done/', ChangePasswordDoneView.as_view(), name='password success'),
     ])),
     path('password-reset/', include([
-        path('', auth_views.PasswordResetView.as_view(template_name='accounts/password/password-reset.html'),
-             name='password_reset'),
-        path('done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
-        path('confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(),
-             name='password_reset_confirm'),
-        path('complete/', auth_views.PasswordResetCompleteView.as_view(),
-             name='password_reset_complete'),
-    ])),
-    path('admin/', include([
-        path('add-staff/', UserStaffCreateView.as_view(), name='create staff user'),
+        path('', ResetPasswordView.as_view(), name='password_reset'),
+        path('done/', ResetPasswordDoneView.as_view(), name='password_reset_done'),
+        path('confirm/<uidb64>/<token>/', ResetPasswordConfirmView.as_view(), name='password_reset_confirm'),
+        path('complete/', ResetPasswordComplete.as_view(), name='password_reset_complete'),
     ])),
 
 )

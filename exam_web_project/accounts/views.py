@@ -1,11 +1,11 @@
 from django.conf import settings
 from django.contrib.auth import views as auth_views, get_user_model, login
-from django.contrib.messages.views import SuccessMessageMixin
+
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
 
-from exam_web_project.accounts.forms import UserCreateForm, UserLoginForm, ChangePasswordForm, UserStaffCreateForm
+from exam_web_project.accounts.forms import UserCreateForm, UserLoginForm, ChangePasswordForm
 
 UserModel = get_user_model()
 
@@ -42,7 +42,7 @@ class UserProfileView(views.DetailView):
 class UserEditProfileView(views.UpdateView):
     template_name = 'accounts/profile-edit-page.html'
     model = UserModel
-    fields = ('profile_picture', 'first_name', 'last_name', 'gender',)
+    fields = ('profile_picture', 'first_name', 'last_name', 'gender')
 
     def get_object(self, queryset=None):
         return self.request.user
@@ -63,20 +63,17 @@ class ChangePasswordDoneView(auth_views.PasswordChangeDoneView):
     template_name = 'accounts/password/password-change-done.html'
 
 
-# <---------- ADMIN ---------->
-class UserStaffCreateView(SuccessMessageMixin, auth_views.FormView):
-    template_name = 'accounts/admin/create_staff_user.html'
-    form_class = UserStaffCreateForm
-    success_url = reverse_lazy('home')
-    success_message = "Admin user created successfully."
+class ResetPasswordView(auth_views.PasswordResetView):
+    template_name = 'accounts/password/password-reset.html'
 
-    def form_valid(self, form):
-        user = form.save()
 
-        admin_group = Group.objects.get(name='Admins')
-        user.groups.add(admin_group)
+class ResetPasswordDoneView(auth_views.PasswordResetDoneView):
+    pass
 
-        # Perform additional actions if needed
-        # For example, send a welcome email to the new admin user
 
-        return super().form_valid(form)
+class ResetPasswordConfirmView(auth_views.PasswordResetConfirmView):
+    pass
+
+
+class ResetPasswordComplete(auth_views.PasswordResetCompleteView):
+    pass
