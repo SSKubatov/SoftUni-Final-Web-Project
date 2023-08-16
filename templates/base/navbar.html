@@ -35,11 +35,6 @@
                             <li>
                                 <a class="dropdown-item" href="{% url 'admin video create' %}">Create Video</a>
                             </li>
-                            {% if user.is_superuser %}
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'create staff user' %}">Add Staff</a>
-                                </li>
-                            {% endif %}
                         </ul>
                     </li>
                 {% endif %}

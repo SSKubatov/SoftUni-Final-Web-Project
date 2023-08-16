@@ -9,7 +9,7 @@ class HomeView(views.TemplateView):
     template_name = 'index.html'
 
 
-class ShowcaseView(views.TemplateView):
+class ShowcaseSectionView(views.TemplateView):
     template_name = 'sections/showcase_section.html'
 
     def get(self, request, *args, **kwargs):
@@ -29,7 +29,7 @@ class InfoSectionView(views.TemplateView):
         return self.render_to_response(context)
 
 
-class Community(views.TemplateView):
+class CommunitySectionView(views.TemplateView):
     template_name = 'sections/community_section.html'
 
     def get(self, request, *args, **kwargs):
