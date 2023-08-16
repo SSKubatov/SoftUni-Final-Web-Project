@@ -11,7 +11,6 @@ from exam_web_project.newsletter.models import NewsletterUser
 from exam_web_project.newsletter.services import NewsletterSubscriber, EmailService
 
 
-
 class NewsletterSubscribeView(views.View):
     SUBSCRIBE_MESSAGE = "Subscribed Successful."
     ERROR_SUBSCRIBE_MESSAGE = "You are already subscribed to our newsletter."

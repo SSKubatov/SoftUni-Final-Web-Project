@@ -83,7 +83,7 @@ class CourseProperty(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.title
+        return f"{self.title}"
 
 
 class Lesson(CourseProperty):
@@ -147,4 +147,4 @@ class Resource(models.Model):
     )
 
     def __str__(self):
-        return f"Resource for  {self.video.title}"
+        return f"Resource for {self.video.title}"

@@ -45,8 +45,9 @@ class CoursePageView(views.DetailView):
         course = self.object
         sorted_videos = self.object.video_set.all().order_by("serial_number")
         serial_number = request.GET.get('lecture', 1)
-        video = self.get_video(serial_number)
+        video = get_object_or_404(Video, serial_number=serial_number, course=course)
         resources = Resource.objects.filter(video=video)
+
         try:
             user_course = get_object_or_404(UserCourseEnroll, user=self.request.user, course=course)
             payment = Payment.objects.get(user=self.request.user, user_course=user_course)
@@ -70,11 +71,6 @@ class CoursePageView(views.DetailView):
                 resources=resources
             )
             return self.render_to_response(context)
-
-    def get_video(self, serial_number):
-        course = self.object
-        video = get_object_or_404(Video, serial_number=serial_number, course=course)
-        return video
 
     def handle_video_access_denied(self, request):
         user = request.user.is_authenticated
