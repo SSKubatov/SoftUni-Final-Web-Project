@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 
 import time
 
-from exam_web_project.newsletter.forms import CustomNewsletterForm, NewsletterUserSubscriberForm
+from exam_web_project.newsletter.forms import NewsletterUserSubscriberForm
 from exam_web_project.newsletter.models import NewsletterUser
 from exam_web_project.newsletter.services import NewsletterSubscriber, NewsletterEmailService
 
@@ -19,10 +19,11 @@ class NewsletterSubscribeView(views.View):
 
     def post(self, request, *args, **kwargs):
         emails = request.POST.get('email')
-        subscriber = NewsletterSubscriber()
+        newsletter_subscriber = NewsletterSubscriber()
 
-        if not subscriber.is_subscribed(emails):
-            subscriber.subscribe(emails)
+        if not newsletter_subscriber.is_subscribed(emails):
+            newsletter_subscriber.subscribe(emails)
+
             email_service = NewsletterEmailService()
             email_service.send_subscription_confirmation(emails)
             messages.success(request, self.SUBSCRIBE_MESSAGE)
@@ -39,7 +40,7 @@ class SendNewsletterEmailView(LoginRequiredMixin, UserPassesTestMixin, views.Vie
     SEND_MESSAGE_SUCCESS = "Newsletter are send successful."
     SEND_MESSAGE_FAIL = "Fail to send the message."
 
-    form_class = CustomNewsletterForm
+    form_class = NewsletterUserSubscriberForm
     template_name = 'newsletter/send_newsletter.html'
 
     def test_func(self):

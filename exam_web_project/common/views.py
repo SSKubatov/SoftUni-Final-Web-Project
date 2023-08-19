@@ -5,7 +5,7 @@ from django.views import generic as views
 UserModel = get_user_model()
 
 
-class HomeView(views.TemplateView):
+class IndexView(views.TemplateView):
     template_name = 'index.html'
 
 

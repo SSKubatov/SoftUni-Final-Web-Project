@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
 
-from exam_web_project.accounts.forms import UserCreateForm, UserLoginForm, ChangePasswordForm
+from exam_web_project.accounts.forms import UserCreateForm, UserLoginForm, ChangePasswordForm, UserEditForm
 
 UserModel = get_user_model()
 
@@ -43,6 +43,7 @@ class UserEditProfileView(views.UpdateView):
     template_name = 'accounts/profile-edit-page.html'
     model = UserModel
     fields = ('profile_picture', 'first_name', 'last_name', 'gender')
+    form_class = UserEditForm
 
     def get_object(self, queryset=None):
         return self.request.user

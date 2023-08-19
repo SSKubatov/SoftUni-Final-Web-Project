@@ -32,7 +32,7 @@
                                 </p>
                             </div>
                             <div class="row m-3 align-items-center">
-                                {% if course.pk in enrolled_courses %}
+                                {% if course.pk in enrolled_courses or is_staff%}
                                     <div class="col text-center m-2">
                                         <a href="{% url 'course page' slug=course.slug %}"
                                            class="btn btn-primary w-100">

@@ -11,22 +11,23 @@ from exam_web_project.courses.models import Course, Video, Resource, Lesson
 from exam_web_project.payments.models import UserCourseEnroll, Payment
 
 
-class CoursesShowcase(views.ListView):
+class CoursesShowcaseView(views.ListView):
     template_name = 'courses/courses_showcase.html'
     queryset = Course.objects.all().order_by('created_at')
     context_object_name = 'courses'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        if self.request.user.is_authenticated:
+        if self.request.user.is_staff and self.request.user.is_active:
+            context['is_staff'] = True
+        elif self.request.user.is_authenticated:
             enrolled_courses = UserCourseEnroll.objects.filter(user=self.request.user).values_list('course', flat=True)
             context['enrolled_courses'] = enrolled_courses
 
         return context
 
 
-class MyCourses(LoginRequiredMixin, views.ListView):
+class MyCoursesView(LoginRequiredMixin, views.ListView):
     template_name = 'courses/my_courses.html'
     context_object_name = 'user_courses'
 
@@ -54,23 +55,13 @@ class CoursePageView(views.DetailView):
             if payment.status:
                 video.is_preview = True
 
-                context = self.get_context_data(
-                    video=video,
-                    sorted_videos=sorted_videos,
-                    resources=resources
-                )
-                return self.render_to_response(context)
-
+            return self.custom_context_render(video, sorted_videos, resources)
         except:
-            if not video.is_preview:
+            if self.request.user.is_staff and self.request.user.is_active:
+                pass
+            elif not video.is_preview:
                 return self.handle_video_access_denied(request)
-
-            context = self.get_context_data(
-                video=video,
-                sorted_videos=sorted_videos,
-                resources=resources
-            )
-            return self.render_to_response(context)
+            return self.custom_context_render(video, sorted_videos, resources)
 
     def handle_video_access_denied(self, request):
         user = request.user.is_authenticated
@@ -81,6 +72,14 @@ class CoursePageView(views.DetailView):
             else:
                 return redirect('sign in')
         return redirect('checkout', slug=self.object.slug)
+
+    def custom_context_render(self, video, sorted_videos, resources):
+        context = self.get_context_data(
+            video=video,
+            sorted_videos=sorted_videos,
+            resources=resources
+        )
+        return self.render_to_response(context)
 
 
 # ADMIN Views

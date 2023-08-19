@@ -82,17 +82,3 @@ class ChangePasswordForm(auth_forms.PasswordChangeForm):
         widget=forms.PasswordInput(
             attrs={'class': 'form-control'}),
     )
-
-
-# <---------------- ADMIN ------------->
-class UserStaffCreateForm(BaseUserCreateForm):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.layout = Layout(
-            'username',
-            'password1',
-            'password2',
-            Submit('submit', 'Create')
-        )

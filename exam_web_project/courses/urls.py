@@ -1,11 +1,11 @@
 from django.urls import path, include
-from exam_web_project.courses.views import CoursePageView, CoursesShowcase, MyCourses, AdminCourseCreateView, \
+from exam_web_project.courses.views import CoursePageView, CoursesShowcaseView, MyCoursesView, AdminCourseCreateView, \
     AdminCourseDeleteView, AdminLessonCreateView, AdminLessonDeleteView, AdminCourseLessonsView, AdminVideoCreateView, \
     AdminCourseVideoView, AdminVideoDeleteView
 
 urlpatterns = (
-    path('my_courses/', MyCourses.as_view(), name='my courses'),
-    path('courses-showcase/', CoursesShowcase.as_view(), name='courses showcase'),
+    path('my_courses/', MyCoursesView.as_view(), name='my courses'),
+    path('courses-showcase/', CoursesShowcaseView.as_view(), name='courses showcase'),
     path('<slug:slug>/', CoursePageView.as_view(), name='course page'),
     path('admin/courses/', include([
         path('create-course/', AdminCourseCreateView.as_view(), name='admin course create'),

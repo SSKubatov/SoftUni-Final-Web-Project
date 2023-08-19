@@ -15,6 +15,6 @@ class NewsletterBaseForm(forms.ModelForm):
         fields = '__all__'
 
 
-class CustomNewsletterForm(NewsletterBaseForm):
-    class Meta(NewsletterBaseForm.Meta):
-        exclude = ['email', ]
+# class CustomNewsletterForm(NewsletterBaseForm):
+#     class Meta(NewsletterBaseForm.Meta):
+#         exclude = ['email', ]

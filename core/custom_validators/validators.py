@@ -26,6 +26,6 @@ def validate_letters_only(value):
 
 def validate_image_max_size(value):
     file_size = value.file.size
-    mb_limit = 5.00
+    mb_limit = 2.00
     if file_size > convert_to_megabytes(mb_limit):
         raise ValidationError(f'Max file size is {mb_limit}sMB.')
