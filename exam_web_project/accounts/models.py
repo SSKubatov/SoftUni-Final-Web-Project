@@ -30,7 +30,7 @@ class AppUser(auth_models.AbstractUser):
     )
 
     email = models.EmailField(
-        unique=False,
+        unique=True,
         validators=(
             validate_email,
         )

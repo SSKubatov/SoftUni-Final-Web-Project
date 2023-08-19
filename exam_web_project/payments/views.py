@@ -31,7 +31,7 @@ def checkout(request, slug):
         course_enrollment_service = CourseEnrollmentService(user, course)
 
         session_url = stripe_services.create_checkout_session(course, user)
-        order_id = stripe_services.get_checkout_session_id
+        order_id = stripe_services.session_id
         user_already_enroll = course_enrollment_service.check_if_user_enroll_in_course()
 
         if user_already_enroll:
@@ -42,9 +42,11 @@ def checkout(request, slug):
 
         return redirect(session_url, code=303)
 
+    course_price = get_discounted_price(course.price, course.discount)
+
     context = {
         'course': course,
-        'course_price': get_discounted_price(course.price, course.discount),
+        'course_price': course_price,
         'lessons': lessons,
     }
 

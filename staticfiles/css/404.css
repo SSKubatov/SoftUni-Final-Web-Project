@@ -1,0 +1,41 @@
+
+.responsive-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+@media (max-width: 600px) {
+            .container {
+                padding: 2.5%;
+            }
+
+            .responsive-image {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .responsive-image {
+                width: 80%;
+                height: auto;
+                margin: 0 auto;
+            }
+        }
+
+        @media (min-width: 1201px) and (max-width: 2000px) {
+            .responsive-image {
+                width: 60%;
+                height: auto;
+                margin: 0 auto;
+            }
+        }
+
+@media (min-width: 2001px) {
+            .responsive-image {
+                width: 40%;
+                height: auto;
+                margin: 0 auto;
+            }
+        }

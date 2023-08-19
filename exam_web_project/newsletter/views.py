@@ -1,14 +1,16 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django import views
 from django.urls import reverse_lazy
 
+import time
+
 from exam_web_project.newsletter.forms import CustomNewsletterForm, NewsletterUserSubscriberForm
 from exam_web_project.newsletter.models import NewsletterUser
-from exam_web_project.newsletter.services import NewsletterSubscriber, EmailService
+from exam_web_project.newsletter.services import NewsletterSubscriber, NewsletterEmailService
 
 
 class NewsletterSubscribeView(views.View):
@@ -16,18 +18,18 @@ class NewsletterSubscribeView(views.View):
     ERROR_SUBSCRIBE_MESSAGE = "You are already subscribed to our newsletter."
 
     def post(self, request, *args, **kwargs):
-        email = request.POST.get('email')
+        emails = request.POST.get('email')
         subscriber = NewsletterSubscriber()
 
-        if not subscriber.is_subscribed(email):
-            subscriber.subscribe(email)
-            email_service = EmailService()
-            email_service.send_subscription_confirmation(email)
+        if not subscriber.is_subscribed(emails):
+            subscriber.subscribe(emails)
+            email_service = NewsletterEmailService()
+            email_service.send_subscription_confirmation(emails)
             messages.success(request, self.SUBSCRIBE_MESSAGE)
             return redirect('home')
 
         messages.error(request, self.ERROR_SUBSCRIBE_MESSAGE)
-        return HttpResponseRedirect(reverse_lazy('home'))
+        return redirect('home')
 
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
@@ -51,7 +53,11 @@ class SendNewsletterEmailView(LoginRequiredMixin, UserPassesTestMixin, views.Vie
             message = form.cleaned_data['message']
             status = form.cleaned_data['status']
             subscribers = NewsletterUser.objects.values_list('email', flat=True)
-            EmailService.send_email(subject, message, subscribers, status)
+
+            newsletter_email_services = NewsletterEmailService()
+
+            newsletter_email_services.send_newsletter_email(subject, message, subscribers, status)
+
             messages.success(request, self.SEND_MESSAGE_SUCCESS)
             return redirect('home')
 

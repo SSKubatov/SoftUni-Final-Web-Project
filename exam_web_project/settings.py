@@ -19,7 +19,6 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.getenv('DEBUG')))
 
-
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(' ')
 
 # Application definition
@@ -35,7 +34,7 @@ INSTALLED_APPS = [
 
     # Third Party Apps
     'crispy_forms',
-    "crispy_bootstrap5",
+    'crispy_bootstrap5',
 
     # Custom Created Apps
     'exam_web_project.common',

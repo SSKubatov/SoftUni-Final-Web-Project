@@ -1,0 +1,19 @@
+a:hover {
+            color: black;
+        }
+
+        a {
+            color: gray;
+            text-decoration: none;
+        }
+
+        .active-video-link {
+            color: whitesmoke;
+            text-emphasis: none;
+            font-weight: bold;
+        }
+
+        .active-video-link:hover {
+            color: white;
+            text-decoration: none;
+        }
