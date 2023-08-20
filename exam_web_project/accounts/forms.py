@@ -46,12 +46,22 @@ class UserCreateForm(BaseUserCreateForm):
 
 
 class UserEditForm(auth_forms.UserChangeForm):
+    profile_picture = forms.ImageField(required=False)
+
     class Meta:
         model = UserModel
-        fields = '__all__'
+        fields = ('profile_picture', 'first_name', 'last_name', 'gender')
         field_classes = {
             "username": auth_forms.UsernameField,
         }
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if self.cleaned_data['profile_picture']:
+            user.profile_picture = self.cleaned_data['profile_picture']
+        if commit:
+            user.save()
+        return user
 
 
 class UserLoginForm(auth_forms.AuthenticationForm):
